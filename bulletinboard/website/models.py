@@ -6,5 +6,8 @@ class Announcement(models.Model):
 
 
 class Person(models.Model):
-    text = models.CharField(max_length=32,default='')
+    name = models.CharField(max_length=32,default='')
     contacts = models.ManyToManyField("self", blank=True)
+
+    def __str__(self):
+        return f"{self.name}: {self.contacts}"
