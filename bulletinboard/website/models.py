@@ -11,3 +11,7 @@ class Person(models.Model):
     def get_friends(self):
         friends = self.contacts.all()
         return friends
+
+
+class Announcement(models.Model):
+    text = models.CharField(max_length=32,default='')
