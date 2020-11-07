@@ -27,4 +27,5 @@ def index(request):
     })
 
 def contact(request):
+    print()
     return render(request, "website/contact.html")
