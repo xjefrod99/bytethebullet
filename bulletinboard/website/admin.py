@@ -1,9 +1,6 @@
 from django.contrib import admin
-from .models import Person
-
+from .models import Person, Announcement
 # Register your models here.
-class PersonAdmin(admin.ModelAdmin):
-    pass
+admin.site.register(Person)
 
-
-admin.site.register(Person, PersonAdmin)
+admin.site.register(Announcement)
