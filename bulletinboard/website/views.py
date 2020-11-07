@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Person
 from .models import Announcement
 from .forms import AnnouncementForm
 
@@ -27,4 +28,8 @@ def index(request):
     })
 
 def contact(request):
+    #simon = Person.objects.get(name= "Simon")
+    #print(simon.get_friends())
+    #jiaqi = Person.objects.get(name= "Jiaqi")
+    #print(jiaqi.get_friends())
     return render(request, "website/contact.html")
