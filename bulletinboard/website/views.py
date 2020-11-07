@@ -1,11 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-<<<<<<< HEAD
 from .models import Person
-=======
 from .models import Announcement
 from .forms import AnnouncementForm
->>>>>>> main
 
 # Create your views here.
 
@@ -31,8 +28,8 @@ def index(request):
     })
 
 def contact(request):
-    jeff = Person.objects.get(name= "Jeff")
-    print(jeff.get_friends())
-    alex = Person.objects.get(name= "Alex")
-    print(alex.get_friends())
+    #simon = Person.objects.get(name= "Simon")
+    #print(simon.get_friends())
+    #jiaqi = Person.objects.get(name= "Jiaqi")
+    #print(jiaqi.get_friends())
     return render(request, "website/contact.html")
