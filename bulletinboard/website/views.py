@@ -3,4 +3,7 @@ from django.http import HttpResponse
 
 # Create your views here.
 def index(request):
-    return HttpResponse("Hello yall, just byte the bullet ;)")
+    return render(request, "website/index.html")
+
+def contact(request):
+    return render(request, "website/contact.html")
