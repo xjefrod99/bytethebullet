@@ -2,6 +2,15 @@
 
 {% block body %}
     <h2>This is our index page!</h2>
+    <br>
+    <h3>Here are the announcements:</h3>
 
+    <ul>
+      {% for announcement in announcements %}
+        <li>{{ announcement.text }}</li>
+      {% empty %}
+        <li>No announcements yet.</li>
+      {% endfor %}
+    </ul>
 
 {% endblock %}
