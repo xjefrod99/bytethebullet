@@ -14,8 +14,18 @@
 
       <form action = "{% url 'contact' %}" method="POST" class="post-form">{% csrf_token %}
 
-          <input type="text" name="name">
-          <span>{{ person_form.contacts}}</span>
+        {% if user.is_authenticated %}
+          <div>
+              Select who you have been in contact with:
+              <span>{{ person_form.contacts }}</span>
+          </div>
+
+
+        {% else %}
+            <input type="text" name="name">
+            <span>{{ person_form.contacts}}</span>
+        {% endif %}
+
           <br>
           <button type="submit" class="btn btn-info pull-left">Submit</button>
       </form>

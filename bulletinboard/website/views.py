@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import Person
 from .models import Announcement
 from .forms import AnnouncementForm, PersonForm
@@ -11,25 +11,79 @@ import plotly.offline as opy
 
 # Create your views here.
 
-# def add_announcement(request):
-#     if request.method == "POST":
-#         form = AnnouncementForm(request.POST)
-#         if form.is_valid():
-#             announcement = form.save(commit=False)
-#             announcement.save()
-#         else:
-#             return render(request, "tasks/add.html", {
-#                 "form": form
-#             })
-#     else:
-#         return render(request, "website/index.html", {
-#             "announcements": Announcement.objects.all()
-#         })
+def login_view(request):
+    if request.method == "POST":
+
+        # Attempt to sign user in
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+
+        # Check if authentication successful
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect(reverse("index"))
+        else:
+            return render(request, "auctions/login.html", {
+                "message": "Invalid username and/or password."
+            })
+    else:
+        return render(request, "auctions/login.html")
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse("index"))
+
+
+def register(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        email = request.POST["email"]
+
+        password = request.POST["password"]
+        confirmation = request.POST["confirmation"]
+        if password != confirmation:
+            return render(request, "auctions/register.html", {
+                "message": "Passwords must match."
+            })
+
+        try:
+            user = User.objects.create_user(username, email, password)
+            user.save()
+        except IntegrityError:
+            return render(request, "auctions/register.html", {
+                "message": "Username already taken."
+            })
+        login(request, user)
+        return HttpResponseRedirect(reverse("index"))
+    else:
+        return render(request, "auctions/register.html")
+
+
+
+
+
+
+def add_announcement(request):
+    message = None
+    if request.method == "POST":
+        announcement_form = AnnouncementForm(request.POST)
+        if announcement_form.is_valid():
+            announcement = announcement_form.save()
+        else:
+            message = "Form is invalid."
+    return render(request, "website/index.html", {
+        "announcements": Announcement.objects.all(),
+        "announcement_form": AnnouncementForm(),
+        "message": message
+    })
 
 
 def index(request):
     return render(request, "website/index.html", {
-        "anouncements": Announcement.objects.all()
+        "anouncements": Announcement.objects.all(),
+        "announcement_form": AnnouncementForm()
     })
 
 
@@ -61,9 +115,7 @@ def contact(request):
         temp = Person.objects.get(name=person)
         friends = list(temp.get_friends())
         name = str(temp)
-        print("here is temp: " + name)
         for f in friends:
-            print("here is f: " + str(f))
             their_friend = str(f) + ""
             G.add_edge(name, their_friend)
 
