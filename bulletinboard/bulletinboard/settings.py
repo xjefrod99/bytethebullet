@@ -26,8 +26,9 @@ SECRET_KEY = 'cv-o8uk7-cbj$d3)#ruv!el_nr2vwmtc1m1q*ad^y2ir)!2yc&'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-"https://bytethebullet.herokuapp.com/",
-"BYTETHEBULLETINBOARD.LIVE"
+"bytethebullet.herokuapp.com",
+"bytethebulletinboard.live",
+"'127.0.0.1"
 ]
 
 
