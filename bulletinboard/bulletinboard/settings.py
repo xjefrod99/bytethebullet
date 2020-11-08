@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
 "bytethebullet.herokuapp.com",
 "bytethebulletinboard.live",
-"'127.0.0.1"
+"'127.0.0.1:8000"
 ]
 
 
