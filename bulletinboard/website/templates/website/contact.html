@@ -2,7 +2,14 @@
 
 {% block body %}
     <h2>This is our contact page!</h2>
+    <p>
+    {% if graph %}
 
+    {{ graph|safe }}
+    {% else %}
+    <p>No graph was provided.</p>
+    {% endif %}
+    </p>
     <div>
 
       <form action = "{% url 'contact' %}" method="POST" class="post-form">{% csrf_token %}
@@ -14,6 +21,5 @@
       </form>
 
     </div>
-
 
 {% endblock %}
