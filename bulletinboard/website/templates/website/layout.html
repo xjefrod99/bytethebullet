@@ -1,5 +1,5 @@
 
-
+<!--
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,6 +23,79 @@
         </ul>
 
         <hr>
+    -->
+
+
+
+        <!doctype html>
+        <html lang="en">
+        {% load static %}
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <meta name="description" content="">
+            <meta name="author" content="">
+            <link rel="icon" href="{% static "favicon.ico" %}">
+
+            <title>Tavern Bulletin Board</title>
+
+            <!-- Bootstrap core CSS -->
+            <link rel="stylesheet" href="{% static "bootstrap.min.css" %}">
+
+            <!-- Custom styles for this template -->
+            <link rel="stylesheet" href="{% static "cover.css" %}">
+          </head>
+
+          <body class="text-center">
+
+            <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+              <header class="masthead mb-auto">
+                <div class="inner">
+                  <!--<h3 class="masthead-brand">Tavern</h3>
+                  <nav class="nav nav-masthead justify-content-center">
+                    <a class="nav-link" href="{% url 'index' %}">Index</a>
+                    <a class="nav-link" href="{% url 'contact' %}">Contact Tracing Web</a>
+                  </nav>-->
+                </div>
+              </header>
+
+
+              <main role="main">
+                <h1 class="cover-heading">Welcome, Middlebury!</h1>
+                <h3 class="cover-heading">Let's stay healthy!</h3>
+
+                <br></br>
+
+                <a class="weatherwidget-io" href="https://forecast7.com/en/44d02n73d17/middlebury/" data-label_1="MIDDLEBURY" data-label_2="WEATHER" data-theme="original" >MIDDLEBURY WEATHER</a>
+                <script>
+                !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+                </script>
+
+                <br></br>
+
+                  <form action = "{% url 'contact' %}" method="POST" class="post-form">{% csrf_token %}
+
+                      <div class="row" style="margin: 20px">
+                            <div class="column" style="margin: 10px"><input type="text" name="name" placeholder="Type your first name."></div>
+                            <div class="column" style="margin: 10px"><span>Enter close contacts:{{ person_form.contacts }}</span></div>
+                            <div class="column" style="margin: 10px"><button type="submit" class="btn btn-info pull-left" >Submit</button></div>
+                      </div>
+
+                  </form>
+
+              </main>
+
+            </div>
+
+            <!-- Bootstrap core JavaScript
+            ================================================== -->
+            <!-- Placed at the end of the document so the pages load faster -->
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            <script>window.jQuery || document.write('<script src="jquery-slim.min.js"><\/script>')</script>
+            <script src="{% static "popper.min.js" %}"></script>
+            <script src="{% static "bootstrap.min.js" %}"></script>
+
+
         {% block body %}
         {% endblock %}
     </body>
