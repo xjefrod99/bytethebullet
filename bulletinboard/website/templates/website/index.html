@@ -1,0 +1,15 @@
+{% extends "website/layout.html" %}
+
+{% block body %}
+    <h2>This is our index page!</h2>
+    <p>This is a different sentence.</p>
+
+    <ul>
+      {% for announcement in announcements %}
+        <li>{{ announcement.text }}</li>
+      {% empty %}
+        <li>No announcements yet.</li>
+      {% endfor %}
+    </ul>
+
+{% endblock %}
