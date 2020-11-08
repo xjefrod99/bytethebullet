@@ -8,11 +8,6 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import random
 import plotly.offline as opy
-
-
-
-
-
 # Create your views here.
 
 # def add_announcement(request):
@@ -30,7 +25,6 @@ import plotly.offline as opy
 #             "announcements": Announcement.objects.all()
 #         })
 
-
 def index(request):
     return render(request, "website/index.html", {
         "anouncements": Announcement.objects.all()
@@ -45,9 +39,26 @@ def make_edge(x, y):
 
 def contact(request):
     G = nx.Graph()
-    G.add_edges_from([("Jeff", "Jiaqi"), ("Kaylee", "Jiaqi"), ("Jiaqi", "Jeff"), ("Simon", "Jeff"), ("Annika", "Jeff"),
-                     ("Annika", "Jiaqi"), ("Kaylee", "Jeff"), ("Simon", "Jiaqi")])
-    G.add_node("mom")
+    #first add people list as nodes
+    all_people = list(Person.objects.all())
+    for p in all_people:
+        G.add_node(str(p))
+
+    for person in all_people:
+        temp = Person.objects.get(name=person)
+        friends = list(temp.get_friends())
+        name = str(temp)
+        print("here is temp: " + name)
+        for f in friends:
+            print("here is f: " + str(f))
+            their_friend = str(f) + ""
+            G.add_edge(name, their_friend)
+    # print("these are simon's friends: ")
+    # print(simon.get_friends())
+    #add edges between each Person
+    #G.add_edges_from([("Jeff", "Jiaqi"), ("Kaylee", "Jiaqi"), ("Jiaqi", "Jeff"), ("Simon", "Jeff"), ("Annika", "Jeff"),
+    #                 ("Annika", "Jiaqi"), ("Kaylee", "Jeff"), ("Simon", "Jiaqi")])
+    #G.add_node("mom")
 
     pos_ = nx.spring_layout(G)
 
