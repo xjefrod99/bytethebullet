@@ -3,6 +3,15 @@ from django.http import HttpResponse
 from .models import Person
 from .models import Announcement
 from .forms import AnnouncementForm
+import plotly.graph_objects as go
+import networkx as nx
+import matplotlib.pyplot as plt
+import random
+import plotly.offline as opy
+
+
+
+
 
 # Create your views here.
 
@@ -27,9 +36,77 @@ def index(request):
         "anouncements": Announcement.objects.all()
     })
 
+
+def make_edge(x, y):
+    return  go.Scatter(x         = x,
+                       y         = y,
+                       line      = dict(color = 'cornflowerblue'),
+                       mode      = 'lines')
+
 def contact(request):
-    #simon = Person.objects.get(name= "Simon")
-    #print(simon.get_friends())
-    #jiaqi = Person.objects.get(name= "Jiaqi")
-    #print(jiaqi.get_friends())
-    return render(request, "website/contact.html")
+    G = nx.Graph()
+    G.add_edges_from([("Jeff", "Jiaqi"), ("Kaylee", "Jiaqi"), ("Jiaqi", "Jeff"), ("Simon", "Jeff"), ("Annika", "Jeff"),
+                     ("Annika", "Jiaqi"), ("Kaylee", "Jeff"), ("Simon", "Jiaqi")])
+    G.add_node("mom")
+
+    pos_ = nx.spring_layout(G)
+
+    edge_trace = []
+    for edge in G.edges():
+        char_1 = edge[0]
+        char_2 = edge[1]
+        x0, y0 = pos_[char_1]
+        x1, y1 = pos_[char_2]
+        trace  = make_edge([x0, x1, None], [y0, y1, None])
+        edge_trace.append(trace)
+
+
+    node_trace = go.Scatter(x         = [],
+                            y         = [],
+                            text      = [],
+                            textposition = "top center",
+                            textfont_size = 20,
+                            mode      = 'markers+text',
+                            hoverinfo = 'none',
+                            marker    = dict(showscale=False,
+                                             color = list(range(len(G.nodes()))),
+                                             colorscale='Portland',
+                                             size = 20,
+                                             line  = None))
+
+    for node in G.nodes():
+        x, y = pos_[node]
+        node_trace['x'] += tuple([x])
+        node_trace['y'] += tuple([y])
+        node_trace['marker']['color'] += tuple(['cornflowerblue'])
+        node_trace['text'] += tuple(['<b>' + node + '</b>'])
+
+    layout = go.Layout(
+        title='<br>Our Close Contacts Circle :)</br>',
+        titlefont_size=16,
+        width=800,
+        height=500,
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        showlegend=False,
+        xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+        yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
+
+    fig = go.Figure(layout = layout)
+
+    for trace in edge_trace:
+        fig.add_trace(trace)
+
+    fig.add_trace(node_trace)
+
+    fig.update_layout(showlegend = False)
+
+    graph = fig.to_html(full_html=False, default_height=500, default_width=700)
+    context = {'graph': graph}
+    # simon = Person.objects.get(name= "Simon")
+    # print("these are simon's friends: ")
+    # print(simon.get_friends())
+    # jiaqi = Person.objects.get(name= "Jiaqi")
+    # print("these are Jiaqi's friends: ")
+    # print(jiaqi.get_friends())
+    return render(request, "website/contact.html", context)
