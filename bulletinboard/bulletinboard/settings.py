@@ -25,7 +25,9 @@ SECRET_KEY = 'cv-o8uk7-cbj$d3)#ruv!el_nr2vwmtc1m1q*ad^y2ir)!2yc&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+"https://whackbulletinboard.herokuapp.com/"
+]
 
 
 # Application definition
@@ -120,4 +122,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 django_heroku.settings(locals())
