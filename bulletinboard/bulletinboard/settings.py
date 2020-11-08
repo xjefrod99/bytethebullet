@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'cv-o8uk7-cbj$d3)#ruv!el_nr2vwmtc1m1q*ad^y2ir)!2yc&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
 "bytethebullet.herokuapp.com",
