@@ -12,6 +12,9 @@ class Person(models.Model):
         friends = self.contacts.all()
         return friends
 
+    def get_queryset(self):
+        return Person.objects.all()
+
 
 class Announcement(models.Model):
     text = models.CharField(max_length=32,default='')
