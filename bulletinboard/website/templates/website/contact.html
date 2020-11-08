@@ -10,24 +10,17 @@
     <p>No graph was provided.</p>
     {% endif %}
     </p>
-    <div>
+    <div class="container">
 
       <form action = "{% url 'contact' %}" method="POST" class="post-form">{% csrf_token %}
 
-        {% if user.is_authenticated %}
-          <div>
-              Select who you have been in contact with:
-              <span>{{ person_form.contacts }}</span>
+          <div class="row" style="margin: 20px">
+            <div class="column" style="margin: 10px"><input type="text" name="name" placeholder="Type your first name."></div>
+            <div class="column" style="margin: 10px"><span>Enter close contacts:{{ person_form.contacts }}</span></div>
+            <div class="column" style="margin: 10px"><button type="submit" class="btn btn-info pull-left" >Submit</button></div>
           </div>
 
 
-        {% else %}
-            <input type="text" name="name">
-            <span>{{ person_form.contacts}}</span>
-        {% endif %}
-
-          <br>
-          <button type="submit" class="btn btn-info pull-left">Submit</button>
       </form>
 
     </div>

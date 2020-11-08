@@ -12,7 +12,7 @@ class PersonForm(forms.ModelForm):
     class Meta:
         model = Person
         fields = ('name', 'contacts')
-    members = forms.ModelMultipleChoiceField(
+    contacts = forms.ModelMultipleChoiceField(
         queryset=Person.objects.all(),
         widget=forms.CheckboxSelectMultiple
     )
