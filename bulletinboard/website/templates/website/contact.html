@@ -10,4 +10,16 @@
     <p>No graph was provided.</p>
     {% endif %}
     </p>
+    <div>
+
+      <form action = "{% url 'contact' %}" method="POST" class="post-form">{% csrf_token %}
+
+          <input type="text" name="name">
+          <span>{{ person_form.contacts}}</span>
+          <br>
+          <button type="submit" class="btn btn-info pull-left">Submit</button>
+      </form>
+
+    </div>
+
 {% endblock %}

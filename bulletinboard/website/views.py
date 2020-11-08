@@ -1,13 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Person
 from .models import Announcement
-from .forms import AnnouncementForm
+from .forms import AnnouncementForm, PersonForm
 import plotly.graph_objects as go
 import networkx as nx
 import matplotlib.pyplot as plt
 import random
 import plotly.offline as opy
+
 # Create your views here.
 
 # def add_announcement(request):
@@ -25,6 +26,7 @@ import plotly.offline as opy
 #             "announcements": Announcement.objects.all()
 #         })
 
+
 def index(request):
     return render(request, "website/index.html", {
         "anouncements": Announcement.objects.all()
@@ -38,6 +40,17 @@ def make_edge(x, y):
                        mode      = 'lines')
 
 def contact(request):
+    #context = {'graph': graph}
+    # added code HttpResponseRedirect
+    if request.method == "POST":
+        person_form = PersonForm(request.POST)
+        if person_form.is_valid():
+            if Person.objects.filter(name = request.POST.get("name")).exists():
+                knownPerson = Person.objects.get(name = request.POST.get("name"))
+                knownPerson.delete()
+                person = person_form.save()
+            else:
+                person = person_form.save()
     G = nx.Graph()
     #first add people list as nodes
     all_people = list(Person.objects.all())
@@ -53,12 +66,6 @@ def contact(request):
             print("here is f: " + str(f))
             their_friend = str(f) + ""
             G.add_edge(name, their_friend)
-    # print("these are simon's friends: ")
-    # print(simon.get_friends())
-    #add edges between each Person
-    #G.add_edges_from([("Jeff", "Jiaqi"), ("Kaylee", "Jiaqi"), ("Jiaqi", "Jeff"), ("Simon", "Jeff"), ("Annika", "Jeff"),
-    #                 ("Annika", "Jiaqi"), ("Kaylee", "Jeff"), ("Simon", "Jiaqi")])
-    #G.add_node("mom")
 
     pos_ = nx.spring_layout(G)
 
@@ -113,11 +120,10 @@ def contact(request):
     fig.update_layout(showlegend = False)
 
     graph = fig.to_html(full_html=False, default_height=500, default_width=700)
-    context = {'graph': graph}
-    # simon = Person.objects.get(name= "Simon")
-    # print("these are simon's friends: ")
-    # print(simon.get_friends())
-    # jiaqi = Person.objects.get(name= "Jiaqi")
-    # print("these are Jiaqi's friends: ")
-    # print(jiaqi.get_friends())
+    context = {'person_form': PersonForm(),'graph': graph }
     return render(request, "website/contact.html", context)
+
+    #simon = Person.objects.get(name= "Simon")
+    #print(simon.get_friends())
+    #jiaqi = Person.objects.get(name= "Jiaqi")
+    #print(jiaqi.get_friends())
