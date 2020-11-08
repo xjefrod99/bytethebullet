@@ -36,7 +36,7 @@ def index(request):
 def make_edge(x, y):
     return  go.Scatter(x         = x,
                        y         = y,
-                       line      = dict(color = 'cornflowerblue'),
+                       line      = dict(color = 'black'),
                        mode      = 'lines')
 
 def contact(request):
@@ -88,7 +88,7 @@ def contact(request):
                             hoverinfo = 'none',
                             marker    = dict(showscale=False,
                                              color = list(range(len(G.nodes()))),
-                                             colorscale='Portland',
+                                             colorscale='Blackbody',
                                              size = 20,
                                              line  = None))
 
@@ -96,14 +96,16 @@ def contact(request):
         x, y = pos_[node]
         node_trace['x'] += tuple([x])
         node_trace['y'] += tuple([y])
-        node_trace['marker']['color'] += tuple(['cornflowerblue'])
+        node_trace['marker']['color'] += tuple(['black'])
         node_trace['text'] += tuple(['<b>' + node + '</b>'])
 
     layout = go.Layout(
-        title='<br>Our Close Contacts Circle :)</br>',
-        titlefont_size=16,
-        width=800,
-        height=500,
+        title='<br>This is our close contacts circle :)</br>',
+        font_color="black",
+        title_x=0.5,
+        titlefont_size=20,
+        width=700,
+        height=600,
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
         showlegend=False,
@@ -119,7 +121,7 @@ def contact(request):
 
     fig.update_layout(showlegend = False)
 
-    graph = fig.to_html(full_html=False, default_height=500, default_width=700)
+    graph = fig.to_html(full_html=False, default_height=500, default_width=500)
     context = {'person_form': PersonForm(),'graph': graph }
     return render(request, "website/contact.html", context)
 
