@@ -27,9 +27,12 @@ def index(request):
         "anouncements": Announcement.objects.all()
     })
 
+
 def contact(request):
-    #simon = Person.objects.get(name= "Simon")
-    #print(simon.get_friends())
-    #jiaqi = Person.objects.get(name= "Jiaqi")
-    #print(jiaqi.get_friends())
+    # simon = Person.objects.get(name= "Simon")
+    # print("these are simon's friends: ")
+    # print(simon.get_friends())
+    # jiaqi = Person.objects.get(name= "Jiaqi")
+    # print("these are Jiaqi's friends: ")
+    # print(jiaqi.get_friends())
     return render(request, "website/contact.html")
